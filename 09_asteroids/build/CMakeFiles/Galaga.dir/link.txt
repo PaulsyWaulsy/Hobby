@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/Galaga.dir/src/game.cpp.o CMakeFiles/Galaga.dir/src/geometry.cpp.o CMakeFiles/Galaga.dir/src/main.cpp.o CMakeFiles/Galaga.dir/src/window.cpp.o -o Galaga  /usr/lib/x86_64-linux-gnu/libSDL2.so 

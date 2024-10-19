@@ -1,0 +1,43 @@
+Equilibrium and Solutions
+
+Solutions: how solvent interacts with a solute to form a homogeneous mixture of two or more
+pure substances
+
+Solute, Solvent: (Gas, Gas), (Liquid, Liquid), (solid , Solid), (Gas, Liquid), (Solid, Liquid)
+Solutes are typically less abundant, and solvents are more.
+
+Hess' Law: Irrespective of the path taken, if the start and end points are the same
+then the total change in energy or enthaply with be the same. 
+The total enthalpy change is equal to the sum of the enthalpies for all reactions.
+
+Molecualr Intereactions and Gas Solubility
+solubility of a gas is the cocentration of dissolved gas in a solution, in equilibrium with 
+a specified pressue of the gas at a specified temperature
+
+Interesting relationship, as the size of the a gas molecule increase, from He to Xe, the
+amount of dispersion forces increases -> therefore has a higher solubility
+
+Making a solutions in water is typically exothermic -> Energy is a product. As per Le Chatelier's
+principle, as the temperature of the system increses the system with then favours the reverse reaction
+to oppose that change. Here, the solubility decreases.
+
+Pressure also impacts the solubility of Gas-Liquid solutions. If there is a closed system, increasing
+the pressure increases the solubility of the the solutions, due to the pushing of gas molecules towards
+the liquid.
+
+Applications:
+    when diving, you will experience more pressure forcing nitrogen into your bloodstream.
+    If you were to emerge immediately, rapidly decreasing your pressure, then nitrogen gas will be
+    released into the blood stream. Resulting in rupturing of blood vessels. If diving, you need to
+    emerge very slowly.
+
+    If you keep a drink cool, the gas will retain a higher solubility rather than in the sun.
+
+Liquid-Liquid
+The chemical structure needs to be considered to determine if the two molecules will mix in a solutino.
+For Example, ethanol and water molecules can react with eachother very strongly, due to their similar 
+Hydrogen bonding. Whereas, Benzene and Water, benzene is non-polar -> hydrophobic
+
+Similar for Solid-Liquid Solutions.
+
+'like dissolves like' for polar and non-polar molecule 

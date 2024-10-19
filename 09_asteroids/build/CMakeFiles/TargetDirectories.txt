@@ -1,0 +1,3 @@
+/home/paul/Projects/Hobby/SDLGame/build/CMakeFiles/Galaga.dir
+/home/paul/Projects/Hobby/SDLGame/build/CMakeFiles/edit_cache.dir
+/home/paul/Projects/Hobby/SDLGame/build/CMakeFiles/rebuild_cache.dir

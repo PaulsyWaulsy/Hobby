@@ -1,0 +1,181 @@
+#include "window.h"
+#include "geometry.h"
+#include <SDL2/SDL_events.h>
+#include <SDL2/SDL_keycode.h>
+#include <SDL2/SDL_render.h>
+#include <SDL2/SDL_timer.h>
+#include <SDL2/SDL_ttf.h>
+
+
+// Player constants
+const float PLAYER_VEL = 25.0f;
+const float PLAYER_DRAG = 0.96f;
+
+// Bullet constants
+const float BULLET_VEL = 750.0f;
+const Uint32 BULLET_TIME = 5000; // in milliseconds
+const Uint32 FIRE_RATE = 200;
+
+
+
+void renderPlayer(SDL_Renderer* renderer, Player& player) {
+    Vector4 color;
+
+    // should rotate the ship then add in player position
+    Vector2 top = SHIP_TOP;
+    // point in the direction of the rotation
+    player.ship.top = player.position + (player.rotation * 40);
+    player.ship.left = player.ship.top - (player.rotation * 40) + SHIP_LEFT; 
+    player.ship.right = player.ship.top - (player.rotation * 40) + SHIP_RIGHT;
+
+    // Draw Triangle
+    drawLine(renderer, player.ship.top, player.position, color);
+    drawLine(renderer, player.ship.right, player.position, color);
+    drawLine(renderer, player.ship.left, player.position, color);
+}
+
+void updatePlayer(Player& player, float deltaTime) {
+    player.velocity *= PLAYER_DRAG;
+    if (player.velocity.magnitude() <= 0.1f) {
+        player.velocity = Vector2(0, 0);
+    }
+
+    player.position += (player.velocity * deltaTime);
+    std::cout << "Rotation: (" << player.rotation.x << ", " << player.rotation.y << ")" << std::endl;
+}
+
+void Window::shoot(Player& player) {
+    Bullet bullet = Bullet(player.ship.top, Vector2(0, -BULLET_VEL), SDL_GetTicks());
+    bullets.push_back(bullet);
+    std::cout << "Bullets: " << bullets.size() << ", Shoot!" << std::endl;
+}
+
+void Window::deleteBullets(void) {
+    // iterate over the bullets
+    bullets.erase(std::remove_if(bullets.begin(), bullets.end(), 
+        [this](const Bullet& bullet) { return (SDL_GetTicks() - bullet.time) >= BULLET_TIME; }), bullets.end());
+}
+
+void Window::updateBullets(float deltaTime) {
+    deleteBullets();
+    for (Bullet& bullet : bullets) {
+        bullet.position += (bullet.velocity * deltaTime);
+    }
+}
+
+// TODO: change the position at which the bullets are drawn
+void Window::renderBullets(void) {
+    for (Bullet& bullet : bullets) {
+        SDL_Rect rect = {(int)bullet.position.x, (int)bullet.position.y, 10, 10};
+        SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+        SDL_RenderFillRect(renderer, &rect);
+    }
+}
+
+Window::Window(const char* title, int width, int height) {
+    if (width <= 0 || height <= 0) {
+        std::cout << "Window Dimensions cannot be less than or equal to zero" << std::endl;
+        exit(WINDOW_ERROR);
+    }
+    quit = false;
+    windowData = { title, width, height };
+
+
+    // Place the player in the middle of the screen
+    Vector2 startPosition = Vector2(width / 2.0f, height / 2.0f);
+    player = { startPosition,  Vector2(), Vector2(0, 1) };
+    init();
+}
+
+Window::~Window() {
+    close();
+}
+
+void Window::init() {
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+        std::cerr << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
+        exit(WINDOW_ERROR);
+    }
+
+    window = SDL_CreateWindow((windowData.title), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowData.width, windowData.height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+    if (window == nullptr) {
+        std::cerr << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
+        exit(WINDOW_ERROR);
+    }
+
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    if (renderer == nullptr) {
+        std::cerr << "Renderer could not be created! SDL_Error: " << SDL_GetError() << std::endl;
+        exit(WINDOW_ERROR);
+    }
+}
+
+void Window::close() {
+    renderer = NULL;
+    window = NULL;
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+}
+
+void Window::render() {
+    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
+    SDL_RenderClear(renderer);
+
+    // Draw the player to the screen
+    renderPlayer(renderer, player);
+
+    // Draw the bullets
+    renderBullets();
+
+    SDL_RenderPresent(renderer);
+}
+
+void Window::update(float deltaTime) {
+    SDL_Event event;
+    handleEvents(event);
+
+    // Put in game logic here 
+    updatePlayer(player, deltaTime);
+    updateBullets(deltaTime);
+}
+
+void Window::handleEvents(SDL_Event& event) {
+    while (SDL_PollEvent(&event)) {
+        switch (event.type) {
+            case SDL_QUIT:
+                quit = true;
+                break;
+            case SDL_KEYDOWN:
+                keyboard[event.key.keysym.sym] = true;
+                break;
+            case SDL_KEYUP:
+                keyboard[event.key.keysym.sym] = false;
+                break;
+        }
+    }
+    // If Escape
+    if (keyboard[SDLK_ESCAPE] == true) {
+        quit = true;
+    }
+
+    if (keyboard[SDLK_LEFT] == true) {
+        player.rotation.rotate(-0.1);
+    }
+    if (keyboard[SDLK_RIGHT] == true) {
+        player.rotation.rotate(0.1); 
+    }
+    if (keyboard[SDLK_UP] == true) {
+        player.velocity.y -= PLAYER_VEL;
+    }
+    if (keyboard[SDLK_DOWN] == true) {
+        player.velocity.y += PLAYER_VEL;
+    }
+
+    Uint32 time = SDL_GetTicks();
+    if (keyboard[SDLK_SPACE] == true && (time - lastTimeShot) >= FIRE_RATE) {
+        lastTimeShot = SDL_GetTicks();
+        shoot(player);
+    }
+}
+

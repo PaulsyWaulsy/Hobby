@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/GOL.dir/src/game.cpp.o CMakeFiles/GOL.dir/src/main.cpp.o CMakeFiles/GOL.dir/src/window.cpp.o -o GOL  /usr/lib/x86_64-linux-gnu/libSDL2.so 
