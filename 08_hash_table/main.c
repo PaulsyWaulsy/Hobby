@@ -332,8 +332,7 @@ void hash_free(HashTable* hashTable) {
     free(hashTable);
 }
 
-void hash_sort(HashTable* hashTable) {
-    // Iterate through each item in the hash table
+void hash_sort(HashTable* hashTable) { // NOTE: unoptimized: should change arrayEntries to Entry*
 }
 
 int file_is_delimiter(char ch) {
