@@ -4,13 +4,13 @@ LDFLAGS = -lncurses -lm
 
 .DEFAULT_GOAL := all
 
-TARGETS = balls
+TARGETS = gol
 .PHONY: all clean
 
 all: $(TARGETS)
 
-balls: main.c
+gol: main.c
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
 clean:
-l	rm -f $(TARGETS) *.o
+	rm -f $(TARGETS) *.o

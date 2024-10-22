@@ -1,3 +1,0 @@
-/home/paul/Projects/Hobby/01_game_of_life/build/CMakeFiles/GOL.dir
-/home/paul/Projects/Hobby/01_game_of_life/build/CMakeFiles/edit_cache.dir
-/home/paul/Projects/Hobby/01_game_of_life/build/CMakeFiles/rebuild_cache.dir

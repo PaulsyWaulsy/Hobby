@@ -1,16 +1,15 @@
 CC = gcc
 CFLAGS = -Wall -pedantic -std=gnu99 -Wextra -g
-LDFLAGS = -lncurses -lm
 
 .DEFAULT_GOAL := all
 
-TARGETS = balls
+TARGETS = dynamicarray
 .PHONY: all clean
 
 all: $(TARGETS)
 
-balls: main.c
-	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
+dynamicarray: main.c
+	$(CC) $(CFLAGS) $^ -o $@
 
 clean:
-l	rm -f $(TARGETS) *.o
+	rm -f $(TARGETS) *.o
